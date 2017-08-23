@@ -1,6 +1,6 @@
 /* global d3, NodeNavigator, crossfilter */
 
-//eleId must be the ID of a context element where everything is going to be drawn
+//eleId must be the ID of a context element where everything is going to be drawn (includes the hashtag)
 function NodeNavigator(eleId, h) {
   "use strict";
   var nn = this,
@@ -593,4 +593,3 @@ function NodeNavigator(eleId, h) {
 
   return nn;
 }
-

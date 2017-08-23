@@ -12,6 +12,7 @@
   stroke-width: 1.5px;
 }
 
+
 </style>
 <div id="nn"></div>
 <svg width="400" height="600"></svg>
@@ -22,19 +23,45 @@
 <script>
 /* global d3, NodeNavigator */
 
+//return the current selection ( the first svg element in the DOM)
 var svg = d3.select("svg"),
+    // get the width from the width atribute of the svg element
     width = +svg.attr("width"),
+    // get the heigh from the height atribute of the svg element
     height = +svg.attr("height");
+    /*
+    Add to the DOM and return a g element into the The SVG to be appended
+    -- <g> element is used to group SVG shapes together. Once grouped you
+    can transform the whole group of shapes as if it was a single shape.
+    This is an advantage compared to a nested <svg> element which cannot
+    be the target of transformation by itself.
+
+    */
 var nodesG = svg.append("g")
+      //set the class nodes to this g elements
       .attr("class", "nodes");
 var linksG = svg.append("g")
+      //set the class links to this g elements
       .attr("class", "links");
-
+/**
+Constructs a new ordinal scale with an empty domain and an empty range.
+The ordinal scale is invalid (always returning undefined) until an
+output range is specified.
+**/
 var color = d3.scaleOrdinal(d3.schemeCategory20);
-
+/**
+Creates a new simulation with the specified array of nodes and no forces. If
+nodes is not specified, it defaults to the empty array. The simulator starts
+automatically; use simulation.on to listen for tick events as the simulation
+runs. If you wish to run the simulation manually instead, call simulation.stop,
+and then call simulation.tick as desired.
+*/
 var simulation = d3.forceSimulation()
+    //maintains all the nodes in the view
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    //separate the nodes
     .force("charge", d3.forceManyBody())
+    //force that maintains the network in the center (because of w/2 and h/2)
     .force("center", d3.forceCenter(width / 2, height / 2));
 
 var nn = new NodeNavigator("#nn", height);
